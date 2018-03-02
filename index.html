@@ -1,0 +1,75 @@
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+
+  <title>Cyberprecios</title>
+  <meta name="description" content="Cyberprecios.es">
+  <meta name="author" content="cyberprecios.es">
+
+  <!--link rel="stylesheet" href="css/styles.css?v=1.0">-->
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reqwest/2.0.5/reqwest.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    {{ message }}
+
+    <category-list></category-list>
+  </div>
+
+  <script>
+  //component registration goes before Vue app initalization!
+  Vue.component('category-list', {
+    template: '<ul class="category-list"><li v-for="category in categories">{{ category.name }}</li></ul>',
+    created () {
+      // fetch the data when the view is created and the data is
+      // already being observed
+      this.fetchData()
+    },
+    watch: {
+      // call again the method if the route changes
+      '$route': 'fetchData'
+    },
+    methods: {
+      fetchData() {
+        retrieveCategories((err, categories) => {
+          if (err) return console.log(err);
+
+          this.categories = categories;
+        });
+      }
+    },
+    data: function() {
+      return {
+        error: null,
+        categories: []
+      }
+    }
+  });
+
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello Vue!'
+    }
+  });
+
+  function retrieveCategories(callback) {
+    reqwest({
+        url: 'http://localhost:3000/products/categories'
+      , type: 'json'
+      , method: 'get'
+      , error: function (err) {
+        callback(err);
+      }
+      , success: function (resp) {
+        callback(null, resp.categories);
+      }
+    })
+  }
+  </script>
+</body>
+</html>
