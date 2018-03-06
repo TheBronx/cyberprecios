@@ -17,13 +17,14 @@
   <div id="app">
     {{ message }}
 
+    <router-view></router-view>
     <category-list></category-list>
   </div>
 
   <script>
   //component registration goes before Vue app initalization!
   Vue.component('category-list', {
-    template: '<ul class="category-list"><li v-for="category in categories">{{ category.name }}</li></ul>',
+    template: '<ul class="category-list"><li v-for="category in categories"><router-link :to="{ name: \'category\', params: { id: escape(category) }}">{{ category }}</router-link></li></ul>',
     created () {
       // fetch the data when the view is created and the data is
       // already being observed
@@ -50,8 +51,19 @@
     }
   });
 
+  const Category = {
+    template: '<div>Category {{ $route.params.id }}</div>'
+  }
+
+  const router = new VueRouter({
+    routes: [
+      { path: '/category/:id', component: Category, name: 'category' }
+    ]
+  });
+
   var app = new Vue({
     el: '#app',
+    router: router,
     data: {
       message: 'Hello Vue!'
     }
