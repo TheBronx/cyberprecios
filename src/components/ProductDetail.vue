@@ -2,7 +2,11 @@
   <div class="product-detail">
     <h1>{{ product.title }}</h1>
     <h3>{{ product.category }}</h3>
-    {{ product }}
+    <img v-if="(!product.pictures || !product.pictures.length)" src="../assets/product-default.jpg" />
+    <img v-else :src="product.pictures[0].url" :alt="product.title">
+
+    <a :href="product.pccomponentesURL" target="_blank" rel=”nofollow” class="btn btn-warning">PcComponentes</a>
+    <a :href="product.amazonURL" target="_blank" rel=”nofollow” class="btn btn-success">Amazon</a>
   </div>
 </template>
 
