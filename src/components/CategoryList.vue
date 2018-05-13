@@ -1,15 +1,17 @@
 <template>
   <div class="category-list">
-    <ul class="category-list">
-      <li v-for="category in categories" v-bind:key="category.url">
-        <router-link :to="{ name: 'category', params: { id: category.name }}">{{ category.name }}</router-link>
-      </li>
-    </ul>
+    <div class="container">
+      <div class="row">
+        <div v-for="category in categories" v-bind:key="category.url" class="col-md-3 col-sm-6">
+          <router-link :to="{ name: 'category', params: { id: category.name }}">{{ category.name }}</router-link>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import reqwest from 'reqwest'
+import api from '../Api.js'
 
 export default {
   name: 'CategoryList',
@@ -20,7 +22,7 @@ export default {
   },
   methods: {
     fetchData() {
-      retrieveCategories((err, categories) => {
+      api.getCategories((err, categories) => {
         if (err) return console.log(err);
 
         categories = categories.map(cat => {
@@ -40,23 +42,8 @@ export default {
     }
   }
 }
-
-function retrieveCategories(callback) {
-  reqwest({
-      url: 'http://localhost:3000/products/categories'
-    , type: 'json'
-    , method: 'get'
-    , error: function (err) {
-      callback(err);
-    }
-    , success: function (resp) {
-      callback(null, resp.categories);
-    }
-  })
-}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;

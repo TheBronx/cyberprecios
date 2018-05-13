@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import reqwest from 'reqwest'
+import api from '../Api.js'
 
 export default {
   name: 'ProductDetail',
@@ -21,7 +21,7 @@ export default {
   methods: {
     fetchData() {
       var productId = this.$route.params.id;
-      retrieveProduct(productId, (err, product) => {
+      api.getProduct(productId, (err, product) => {
         if (err) return console.log(err);
 
         this.product = product;
@@ -35,20 +35,6 @@ export default {
     }
   }
 };
-
-function retrieveProduct(productId, callback) {
-  reqwest({
-      url: 'http://localhost:3000/products/' + productId
-    , type: 'json'
-    , method: 'get'
-    , error: function (err) {
-      callback(err);
-    }
-    , success: function (resp) {
-      callback(null, resp);
-    }
-  })
-}
 </script>
 
 <style scoped>
