@@ -5,7 +5,8 @@
         <div v-for="product in products" v-bind:key="product.id" class="col-md-3 col-sm-6">
 
           <div class="card">
-            <img class="card-img-top" src="../assets/product-default.jpg" alt="product.title">
+            <img v-if="(!product.pictures || !product.pictures.length)" class="card-img-top" src="../assets/product-default.jpg" />
+            <img v-else class="card-img-top" :src="product.pictures[0].url" :alt="product.title">
             <div class="card-body">
               <p class="card-text">{{ product.title }}</p>
               <router-link :to="{ name: 'product', params: { id: product.id }}" class="btn btn-primary">Ver</router-link>
