@@ -1,16 +1,14 @@
 <template>
   <div class="category">
     <div class="container">
-      <div class="row">
-        <div v-for="product in products" v-bind:key="product.id" class="col-md-3 col-sm-6">
+      <div class="card-columns">
+        <div v-for="product in products" v-bind:key="product.id" class="card">
 
-          <div class="card">
-            <img v-if="(!product.pictures || !product.pictures.length)" class="card-img-top" src="../assets/product-default.jpg" />
-            <img v-else class="card-img-top" :src="product.pictures[0].url" :alt="product.title">
-            <div class="card-body">
-              <p class="card-text">{{ product.title }}</p>
-              <router-link :to="{ name: 'product', params: { id: product.id }}" class="btn btn-primary">Ver</router-link>
-            </div>
+          <img v-if="(!product.pictures || !product.pictures.length)" class="card-img-top" src="../assets/product-default.jpg" />
+          <img v-else class="card-img-top" :src="product.pictures[0].url" :alt="product.title">
+          <div class="card-body">
+            <p class="card-text">{{ product.title }}</p>
+            <router-link :to="{ name: 'product', params: { id: product.id }}" class="btn btn-primary">Ver</router-link>
           </div>
 
         </div>
