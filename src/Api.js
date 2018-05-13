@@ -18,7 +18,7 @@ function getCategories(callback) {
 
 function getCategory(category, callback) {
   reqwest({
-      url: host + '/products/categories/' + category
+      url: host + '/products/categories/' + category.replace(/\//g, '%2F')
     , type: 'json'
     , method: 'get'
     , error: function (err) {
